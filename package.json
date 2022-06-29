@@ -1,0 +1,39 @@
+{
+  "name": "my-studies",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint --ext .ts,vue --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "eslint": "^8.18.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.1.1",
+    "pinia": "^2.0.14",
+    "quasar": "^2.7.3",
+    "recommended": "link:@vue/typescript/recommended",
+    "sass": "1.32.12",
+    "socket.io-client": "^4.5.1",
+    "typescript": "*",
+    "unocss": "^0.41.1",
+    "vite": "^2.9.9",
+    "vue-router": "^4.0.16",
+    "vue-tsc": "^0.34.7",
+    "vue3-recommended": "link:plugin:vue/vue3-recommended"
+  }
+}
