@@ -9,6 +9,7 @@
     "lint": "eslint --ext .ts,vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@quasar/extras": "^1.14.2",
     "vue": "^3.2.25"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.1.1",
+    "path": "^0.12.7",
     "pinia": "^2.0.14",
     "quasar": "^2.7.3",
     "recommended": "link:@vue/typescript/recommended",

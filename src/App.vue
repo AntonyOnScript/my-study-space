@@ -2,9 +2,8 @@
 </script>
 
 <template>
-  <p>
-    hi
-  </p>    
+  <!-- eslint-disable-next-line -->
+  <router-view></router-view>
 </template>
 
 <style>
