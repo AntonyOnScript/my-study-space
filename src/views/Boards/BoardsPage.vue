@@ -29,14 +29,14 @@ function createHeldLabel(innerLabel: string) {
   }
 }
 
-function focusDescription(event: null | KeyboardEvent | FocusEvent, label: string) {
+function focusDescription(event: null | KeyboardEvent | FocusEvent | Event) {
   if (event instanceof FocusEvent) {
     if (!heldLabel.value?.title.length) {
       clearHeldLabel()
       return
     }
   }
-  if (event?.key !== "Enter") return
+  if (event instanceof KeyboardEvent && event?.key !== "Enter") return
   heldLabelDescription.value[0].focus()
 }
 
@@ -79,7 +79,7 @@ function createItem(label: string) {
             placeholder="title"
             autofocus
             outlined
-            @blur="e => focusDescription(e, label)"
+            @blur="e => focusDescription(e)"
             @keydown="e => focusDescription(e)"
           />
           <q-input
@@ -102,7 +102,7 @@ function createItem(label: string) {
             class="row justify-between"
           >
             <h6 class="mb-2 mt-0">
-              {{ item.title }}
+              {{ item['title'] }}
             </h6>
             <q-btn
               icon="create"
@@ -110,7 +110,7 @@ function createItem(label: string) {
             />
           </div>
           <p class="mb-0">
-            {{ item.description }}
+            {{ item['description'] }}
           </p>
         </q-card-section>
       </q-card>
