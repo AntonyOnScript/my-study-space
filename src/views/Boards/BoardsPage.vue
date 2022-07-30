@@ -16,7 +16,8 @@ function addItem(item: string) {
   const innerItem: any = labelBoards[item]
   innerItem.push({
     title: heldLabel.value?.title,
-    description: heldLabel.value?.description
+    description: heldLabel.value?.description,
+    isEditing: false
   })
   clearHeldLabel()
 }
@@ -25,15 +26,18 @@ function createHeldLabel(innerLabel: string) {
   heldLabel.value = {
     title: "",
     description: "",
-    label: innerLabel
+    label: innerLabel,
+    isEditing: false
   }
 }
 
 function focusDescription(event: null | KeyboardEvent | FocusEvent | Event) {
   if (event instanceof FocusEvent) {
-    if (!heldLabel.value?.title.length) {
-      clearHeldLabel()
-      return
+    if (heldLabel.value && heldLabel.value.hasOwnProperty('title')) {
+      if (!heldLabel.value?.title.length) {
+        clearHeldLabel()
+        return
+      }
     }
   }
   if (event instanceof KeyboardEvent && event?.key !== "Enter") return
@@ -46,6 +50,14 @@ function clearHeldLabel() {
 
 function createItem(label: string) {
   addItem(label)
+}
+
+function editLabel(index: number, label: string) {
+  labelBoards[label][index]["isEditing"] = true
+}
+
+function updateItem(index: number, label: string) {
+  labelBoards[label][index]['isEditing'] = false
 }
 
 </script>
@@ -93,11 +105,11 @@ function createItem(label: string) {
         </q-card-section>
       </q-card>
       <q-card 
-        v-for="(item, index) in value"
+        v-for="(item, index) in value.reverse()"
         :key="index"
         class="mt-2"
       >
-        <q-card-section>
+        <q-card-section v-if="!item['isEditing']">
           <div
             class="row justify-between"
           >
@@ -106,12 +118,33 @@ function createItem(label: string) {
             </h6>
             <q-btn
               icon="create"
+              @click="editLabel(index, label)"
               flat
             />
           </div>
           <p class="mb-0">
             {{ item['description'] }}
           </p>
+        </q-card-section>
+        <q-card-section v-else>
+          <q-input
+            ref="heldLabelTitle"
+            v-model="item.title"
+            class="mb-2"
+            placeholder="title"
+            autofocus
+            outlined
+            @blur="e => focusDescription(e)"
+            @keydown="e => focusDescription(e)"
+          />
+          <q-input
+            ref="heldLabelDescription"
+            v-model="item.description"
+            placeholder="description"
+            outlined
+            @blur="updateItem(index, label)"
+            @keydown="e => e.key === 'Enter' ? updateItem(index, label) : ''"
+          />
         </q-card-section>
       </q-card>
     </div>
