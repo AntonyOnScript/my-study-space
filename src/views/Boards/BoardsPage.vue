@@ -58,12 +58,17 @@ function editLabel(index: number, label: string) {
   labelBoards[label][index]["isEditing"] = true
 }
 
+function removeLabel(index: number, label: string) {
+  labelBoards[label].splice([index], 1)
+}
+
 function updateItem(index: number, label: string) {
   labelBoards[label][index]['isEditing'] = false
 }
 
 function moveLabel(e, currentIndex, currentLabel) {
   const clickPath = e.path
+  if (clickPath[0].tagName === "I" || clickPath[0].className.indexOf("q-btn") !== -1) return false
   let clickedItem = clickPath.filter(node => {
     if (node.className) {
       return node.className.indexOf("listed-label") !== -1 ? true : false
@@ -162,18 +167,33 @@ window.isMovingLabel = false
         >
           {{label}}
           <div
-            class="row justify-between"
+            class="row no-wrap mb-4"
           >
-            <h6 class="mb-2 mt-0">
+            <h6 
+              class="mb-0 mt-0 col-8" 
+              style="word-break: break-all"
+            >
               {{ item['title'] }}
             </h6>
-            <q-btn
-              icon="create"
-              @click="editLabel(index, label)"
-              flat
-            />
+            <div class="row no-wrap col no-flex-height">
+              <q-btn
+                icon="create"
+                class="ml-2"
+                @click="editLabel(index, label)"
+                flat
+              />
+              <q-btn
+                icon="delete"
+                class="ml-2"
+                @click="removeLabel(index, label)"
+                flat
+              />
+            </div>
           </div>
-          <p class="mb-0">
+          <p 
+            class="mb-0" 
+            style="word-break: break-all"
+          >
             {{ item['description'] }}
           </p>
         </q-card-section>
@@ -218,5 +238,9 @@ window.isMovingLabel = false
     z-index: 2;
     background: white;
     box-shadow: 0 1px 5px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%);  
+  }
+
+  .no-flex-height {
+    height: min-content;
   }
 </style>
