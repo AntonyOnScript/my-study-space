@@ -76,6 +76,7 @@ function moveLabel(e, currentIndex, currentLabel) {
     return false
   })
   clickedItem = clickedItem[0]
+  const { width: clickedItemWidth } = clickedItem.getBoundingClientRect()
   window.isMovingLabel = true
   window.onmousemove = (event) => {
     if (window.isMovingLabel) {
@@ -83,6 +84,7 @@ function moveLabel(e, currentIndex, currentLabel) {
       const { x, y } = event
       const topValue = (y - (93 / 2))
       const leftValue = (x - (402 / 2))
+      clickedItem.style.width = `${clickedItemWidth}px`
       clickedItem.style.top = `${topValue}px`
       clickedItem.style.left = `${leftValue}px`
       clickedItem.style.position = "absolute"
@@ -97,6 +99,7 @@ function moveLabel(e, currentIndex, currentLabel) {
       labelBoards[droppedLabel].push(labelBoards[currentLabel][currentIndex])
       labelBoards[currentLabel].splice(currentIndex, 1)
       clickedItem.classList.remove("label-backgrounded")
+      clickedItem.style.width = ""
       clickedItem.style.position = "relative"
       clickedItem.style.top = ""
       clickedItem.style.left = ""
@@ -165,7 +168,25 @@ window.isMovingLabel = false
           class="listed-label"
           @mousedown="e => moveLabel(e, index, label)"
         >
-          {{label}}
+          <div class="row justify-between">
+            {{label}} 
+            <div class="no-flex-height">
+              <q-btn
+                size="sm"
+                icon="create"
+                class="ml-2"
+                @click="editLabel(index, label)"
+                flat
+              />
+              <q-btn
+                size="sm"
+                icon="delete"
+                class="ml-2"
+                @click="removeLabel(index, label)"
+                flat
+              />
+            </div>
+          </div>
           <div
             class="row no-wrap mb-4"
           >
@@ -175,20 +196,6 @@ window.isMovingLabel = false
             >
               {{ item['title'] }}
             </h6>
-            <div class="row no-wrap col no-flex-height">
-              <q-btn
-                icon="create"
-                class="ml-2"
-                @click="editLabel(index, label)"
-                flat
-              />
-              <q-btn
-                icon="delete"
-                class="ml-2"
-                @click="removeLabel(index, label)"
-                flat
-              />
-            </div>
           </div>
           <p 
             class="mb-0" 
@@ -231,7 +238,6 @@ window.isMovingLabel = false
 
   .listed-label {
     cursor: pointer;
-    width: 402px;
   }
 
   .label-backgrounded {
